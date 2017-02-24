@@ -1,5 +1,5 @@
 -module(recursion).
--export([fib/1, pieces2d/1, pieces3d/1]).
+-export([fib/1, pieces2d/1, pieces3d/1, pieces/2]).
 
 fib(0) -> 
     0;
@@ -42,3 +42,10 @@ pieces3d(0) ->
     1;
 pieces3d(N) when N>0 ->
     pieces3d(N-1) + pieces2d(N-1).
+
+pieces(0,_) ->
+    1;
+pieces(N,1)->
+    N+1;
+pieces(N,D) ->
+    pieces(N-1,D) + pieces(N-1,D-1).
