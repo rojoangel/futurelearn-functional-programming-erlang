@@ -1,5 +1,5 @@
 -module(recursion).
--export([fib/1, pieces/1]).
+-export([fib/1, pieces2d/1, pieces3d/1]).
 
 fib(0) -> 
     0;
@@ -16,15 +16,29 @@ fib(N) when N>1 ->
 % 3
 
 %% from http://www.math.toronto.edu/mccann/assignments/199S/cuttingplanes.pdf
-% pieces(0) -> 1;
-% pieces(1) -> 2;
-% pieces(2) -> 4; 
-% pieces(3) -> 7; 
-% pieces(4) -> 11;
-% pieces(5) -> 16;
-% pieces(6) -> 22;
+% pieces2d(0) -> 1;
+% pieces2d(1) -> 2;
+% pieces2d(2) -> 4; 
+% pieces2d(3) -> 7; 
+% pieces2d(4) -> 11;
+% pieces2d(5) -> 16;
+% pieces2d(6) -> 22;
 
-pieces(0) ->
+pieces2d(0) ->
     1;
-pieces(N) when N>0 ->
-    pieces(N-1) + N.
+pieces2d(N) when N>0 ->
+    pieces2d(N-1) + N.
+
+%% from http://www.math.toronto.edu/mccann/assignments/199S/cuttingplanes.pdf
+% pieces3d(0) -> 1;
+% pieces3d(1) -> 2;
+% pieces3d(2) -> 4; 
+% pieces3d(3) -> 8; 
+% pieces3d(4) -> 15;
+% pieces3d(5) -> 26;
+% pieces3d(6) -> 42;
+
+pieces3d(0) ->
+    1;
+pieces3d(N) when N>0 ->
+    pieces3d(N-1) + pieces2d(N-1).
