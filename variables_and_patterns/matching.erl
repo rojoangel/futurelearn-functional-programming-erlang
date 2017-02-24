@@ -1,5 +1,5 @@
 -module(matching).
--export([xOr1/2, xOr2/2, xOr3/2, maxThree/3]).
+-export([xOr1/2, xOr2/2, xOr3/2, maxThree/3, howManyEqual/3]).
 
 xOr1(true,B)->
     not(B);
@@ -22,3 +22,14 @@ maxThree(A,B,B)->
     max(A,B);
 maxThree(A,B,C)->
     max(A,max(B,C)).
+
+howManyEqual(A,A,A)->
+    3;
+howManyEqual(A,A,_)->
+    2;
+howManyEqual(A,_,A)->
+    2;
+howManyEqual(_,A,A)->
+    2;
+howManyEqual(_,_,_)->
+    0.
