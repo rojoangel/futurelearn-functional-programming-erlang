@@ -1,5 +1,5 @@
 -module(blists).
--export([double/1, evens/1, median/1]).
+-export([double/1, evens/1, median/1, modes/1]).
 
 % - double - direct recursion
 double([]) -> [];
@@ -50,3 +50,20 @@ median(Xs) ->
         0 -> (nth(SortedXs,MidPositionXs-1) + nth(SortedXs,MidPositionXs)) / 2;
         _ -> nth(SortedXs,MidPositionXs)
     end.
+
+% - modes - direct recursion
+
+count(Xs) -> count_sorted(sort(Xs)).
+
+count_sorted([X|Xs]) -> count_sorted(Xs, X, 1, []). % call to tail recursive count_sorted
+count_sorted([], CurrentVal , CurrentCount, Counts) -> [{CurrentVal, CurrentCount}|Counts];
+count_sorted([X|Xs], X, CurrentCount, Counts) -> count_sorted(Xs, X, CurrentCount + 1, Counts);
+count_sorted([X|Xs], Y, CurrentCount, Counts) -> count_sorted(Xs, X, 1, [{Y, CurrentCount}|Counts]).
+
+max_counts([{Val, Count}|Xs]) -> max_counts(Xs, [Val], Count). % call to tail recursive max_counts
+max_counts([], Modes, _MaxCount) -> Modes;
+max_counts([{Val, Count}|Xs], Modes, Count) -> max_counts(Xs, [Val|Modes], Count);
+max_counts([{Val, Count}|Xs], _Modes, MaxCount) when Count > MaxCount -> max_counts(Xs, [Val], Count);
+max_counts([{_Val, _Count}|Xs], Modes, MaxCount) -> max_counts(Xs, Modes, MaxCount).
+
+modes(Xs) -> max_counts(count(Xs)).
