@@ -1,5 +1,9 @@
 -module(wdib).
--export([take/2, take2/2, taketr/2, taketr2/2]).
+-export([take/2, take2/2, taketr/2, taketr2/2, nubtr/1]).
+
+% ----
+% take
+% ----
 
 % -- take direct recursive
 -spec take(integer(), [T]) -> [T].
@@ -24,3 +28,18 @@ taketr2(N,Xs) -> taketr2(N,Xs,[]). % call to tail recursion implementation
 taketr2(0,_Xs,Acc) -> lists:reverse(Acc);
 taketr2(_N,[],Acc) -> lists:reverse(Acc);
 taketr2(N,[X|Xs],Acc) -> taketr2(N-1, Xs, [X|Acc]).
+
+% ---
+% nub
+% ---
+
+% -- nub (keeping the 1st occurrence) tail recursive
+-spec nubtr([T]) -> [T].
+nubtr(Xs) -> nubtr(Xs,[]).
+nubtr([],Acc) -> lists:reverse(Acc);
+nubtr([X|Xs],Acc) ->
+    case lists:member(X,Acc) of
+        true -> nubtr(Xs,Acc);
+        _    -> nubtr(Xs, [X|Acc])
+    end.
+
