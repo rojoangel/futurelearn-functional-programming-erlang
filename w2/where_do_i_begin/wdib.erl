@@ -12,4 +12,4 @@ taketr(N,[X|Xs],M,Acc) -> taketr(N,Xs,M+1,Acc++[X]).
 -spec take(integer(), [T]) -> [T].
 take(_N,[]) -> [];
 take(0,_Xs) -> [];
-take(N,[X|Xs]) -> [X|take(N-1,Xs)].
+take(N,[X|Xs]) when N>0-> [X|take(N-1,Xs)].
