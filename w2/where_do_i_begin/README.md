@@ -24,3 +24,9 @@ Define a function nub to remove all the duplicate elements from a list. This cou
 - nub([2,4,1,3,3,1]) = [2,4,1,3]
 
 - nub([2,4,1,3,3,1]) = [2,4,3,1]
+
+# The 'palindrome' function
+
+Define a function palindrome, that returns true or false depending on whether the list is a palindrome - the same when read right to left as when read left to right.
+
+- palindrome("Madam I\'m Adam") = true
