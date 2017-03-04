@@ -1,5 +1,5 @@
 -module(wdib).
--export([take/2, take2/2, taketr/2, taketr2/2, nub/1, bun/1, nubtr/1]).
+-export([take/2, take2/2, taketr/2, taketr2/2, nub/1, bun/1, nubtr/1, palindrome/1]).
 
 % ----
 % take
@@ -63,3 +63,38 @@ nubtr([X|Xs],Acc) ->
         _    -> nubtr(Xs, [X|Acc])
     end.
 
+% ----------
+% palindrome
+% ----------
+
+% - palindrome using composition
+palindrome(Xs) -> palin(nocaps(nopunc(Xs))).
+
+% - palin - literal palindrome
+palin(Xs) -> Xs == reverse(Xs).
+
+% - reverse in terms of shunt
+reverse(Xs) -> shunt(Xs,[]).
+
+% - shunt using direct recursion
+shunt([],Ys) -> Ys;
+shunt([X|Xs],Ys) -> shunt(Xs,[X|Ys]).
+
+% - nocaps in terms of nocap
+nocaps([]) -> [];
+nocaps([X|Xs]) -> [nocap(X)|nocaps(Xs)].
+
+% - nocap - uncapitalizes
+nocap(X) -> 
+    case $A =< X andalso X =< $Z of
+        true -> X + 32;
+        _    -> X
+    end.
+
+% - nopunc
+nopunc([]) -> [];
+nopunc([X|Xs]) -> 
+    case lists:member(X, ",;.:\t\n \'\"") of
+        true -> nopunc(Xs);
+        _    -> [X|nopunc(Xs)]
+    end.
