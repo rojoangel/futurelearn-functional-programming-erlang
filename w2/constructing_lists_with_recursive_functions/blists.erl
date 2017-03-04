@@ -1,12 +1,12 @@
 -module(blists).
--export([double/1, doubletr/1, evens/1, median/1, modes/1]).
+-export([double/1, doubletr/1, evens/1, evenstr/1, median/1, modes/1]).
 
 % - double - direct recursion
 double([]) -> [];
 double([X|Xs]) -> [ 2 * X | double(Xs)].
 
 % - double - tail recursion
-doubletr(Xs) -> doubletr(Xs,[]). % call to tail recursive double
+doubletr(Xs) -> doubletr(Xs,[]). % call to tail recursive doubletr
 doubletr([], Doubles) -> Doubles;
 doubletr([X|Xs], Doubles) -> doubletr(Xs, Doubles ++ [2 * X]).
 
@@ -19,6 +19,15 @@ evens([X|Xs]) ->
     case even(X) of
         true -> [X|evens(Xs)];
         _ -> evens(Xs)
+    end.
+
+% - evens - tail recursion
+evenstr(Xs) -> evenstr(Xs,[]). % call to tail recursive evenstr
+evenstr([], Evens) -> Evens;
+evenstr([X|Xs], Evens) -> 
+    case even(X) of
+        true -> evenstr(Xs, Evens ++ [X]);
+        _    -> evenstr(Xs, Evens)
     end.
 
 % - median - direct recursion
