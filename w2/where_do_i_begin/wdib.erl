@@ -1,5 +1,5 @@
 -module(wdib).
--export([take/2, take2/2, taketr/2, taketr2/2, nubtr/1]).
+-export([take/2, take2/2, taketr/2, taketr2/2, nub/1, nubtr/1]).
 
 % ----
 % take
@@ -32,6 +32,17 @@ taketr2(N,[X|Xs],Acc) -> taketr2(N-1, Xs, [X|Acc]).
 % ---
 % nub
 % ---
+
+% -- nub (keeping the 1st occurrence) as resolved in the classroom - using direct recursion after removing X
+-spec nub([T]) -> [T].
+nub([]) -> [];
+nub([X|Xs]) -> [X|nub(removeAll(X,Xs))].
+
+% - removeAll helper function
+-spec removeAll(T,[T]) -> [T].
+removeAll(_,[]) -> [];
+removeAll(X,[X|Xs]) -> removeAll(X,Xs);
+removeAll(X,[Y|Xs]) -> [Y|removeAll(X,Xs)].
 
 % -- nub (keeping the 1st occurrence) tail recursive
 -spec nubtr([T]) -> [T].
