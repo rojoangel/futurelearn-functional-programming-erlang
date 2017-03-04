@@ -1,5 +1,5 @@
 -module(wdib).
--export([take/2, take2/2, taketr/2, taketr2/2, nub/1, nubtr/1]).
+-export([take/2, take2/2, taketr/2, taketr2/2, nub/1, bun/1, nubtr/1]).
 
 % ----
 % take
@@ -43,6 +43,15 @@ nub([X|Xs]) -> [X|nub(removeAll(X,Xs))].
 removeAll(_,[]) -> [];
 removeAll(X,[X|Xs]) -> removeAll(X,Xs);
 removeAll(X,[Y|Xs]) -> [Y|removeAll(X,Xs)].
+
+% - bun (keeping the 2nd occurrence) as resolved in the classroom - using direct recursion and member
+-spec bun([T]) -> [T].
+bun([]) -> [];
+bun([X|Xs]) -> 
+    case lists:member(X,Xs) of
+        true -> bun(Xs);
+        _    -> [X|bun(Xs)]
+    end.
 
 % -- nub (keeping the 1st occurrence) tail recursive
 -spec nubtr([T]) -> [T].
