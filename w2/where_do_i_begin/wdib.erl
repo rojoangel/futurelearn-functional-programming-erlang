@@ -1,11 +1,15 @@
 -module(wdib).
--export([take/2, taketr/2, taketr2/2]).
+-export([take/2, take2/2, taketr/2, taketr2/2]).
 
 % -- take direct recursive
 -spec take(integer(), [T]) -> [T].
 take(_N,[]) -> [];
 take(0,_Xs) -> [];
 take(N,[X|Xs]) when N>0-> [X|take(N-1,Xs)].
+
+% -- take using sublist
+-spec take2(integer(),[T]) -> [T].
+take2(N,Xs) -> lists:sublist(Xs,N).
 
 % -- take tail recursive
 -spec taketr(integer(),[T]) -> [T].
