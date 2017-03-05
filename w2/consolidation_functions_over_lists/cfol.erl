@@ -1,5 +1,5 @@
 -module(cfol).
--export([join/2,concat/1,member/2,quicksort/1,insertionsort/1,mergesort/1]).
+-export([join/2,concat/1,member/2,quicksort/1,insertionsort/1,mergesort/1,perms/1]).
 
 % - join in terms of shunt & reverse
 -spec join([T],[T]) -> [T].
@@ -73,3 +73,20 @@ merge([X|Xs]=Xss,[Y|Ys]=Yss,Acc) ->
         true -> merge(Xss,Ys,Acc++[Y]);
         _    -> merge(Xs,Yss,Acc++[X])
     end.
+
+% - perms in terms of prepend and append
+-spec perms([T]) -> [[T]].
+perms([]) -> [[]];
+perms([X]) -> [[X]];
+perms([X|Xs]) -> prepend(X,perms(Xs)) ++ append(X,perms(Xs)).
+
+% - prepend tail recursive
+-spec prepend(T,[T]) -> [T].
+prepend(X,Ys) -> prepend(X,Ys,[]).
+prepend(_X,[],Acc) -> Acc;
+prepend(X,[Y|Ys],Acc) -> prepend(X,Ys,[ [X|Y] | Acc ]).
+
+-spec append(T,[T]) -> [T].
+append(X,Ys) -> append(X,Ys,[]).
+append(_X,[],Acc) -> Acc;
+append(X,[Y|Ys],Acc) -> append(X,Ys,[ Y++[X] | Acc ]).
