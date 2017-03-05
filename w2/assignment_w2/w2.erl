@@ -38,7 +38,7 @@ add_line_to_ranges(LineIdx, Ranges) ->
     end.
 
 line_to_words(Line) ->
-    string:tokens(nocaps(nopunc(Line)), " "). % leveraging the string:tokens/2 function
+    noshorts(string:tokens(nocaps(nopunc(Line)), " ")). % leveraging the string:tokens/2 function
 
 % - removes punctuation
 nopunc([]) -> [];
@@ -56,4 +56,12 @@ nocap(X) ->
     case $A =< X andalso X =< $Z of
         true -> X + 32;
         _    -> X
+    end.
+
+% - removes short words (len < 3)
+noshorts([]) -> [];
+noshorts([X|Xs]) -> 
+    case string:len(X) < 3 of
+        true -> noshorts(Xs);
+        _    -> [X|noshorts(Xs)]
     end.
