@@ -21,8 +21,12 @@ add_word(Word,LineIdx,[]) ->                                    % edge case: Wor
     [{Word, add_line_to_ranges(LineIdx,[])}];                     % add LineIdx to empty ranges
 add_word(Word,LineIdx,[{Word, Ranges}|WordRanges]) ->           % if words match 
     [{Word, add_line_to_ranges(LineIdx,Ranges)}|WordRanges];    % add LineIdx to current Ranges and stop recurring
-add_word(Word,LineIdx,[{AnotherWord, Ranges}|WordRanges]) ->    % if words do not match 
-    [{AnotherWord, Ranges}|add_word(Word,LineIdx,WordRanges)].  % keep recurring
+add_word(Word,LineIdx,[{AnotherWord, Ranges}|WordRanges]=AllWordRanges) ->    % if words do not match 
+    % [{AnotherWord, Ranges}|add_word(Word,LineIdx,WordRanges)].  % keep recurring (non lexicographic order)
+    case AnotherWord < Word of
+        true -> [{AnotherWord, Ranges}|add_word(Word,LineIdx,WordRanges)]; % keep recurring (lexicograph order)
+        _    -> [{Word,add_line_to_ranges(LineIdx,[])}|AllWordRanges]      % add Word and stop recurring 
+    end.
 
 add_line_to_ranges(LineIdx,[]) ->       % edge case - Ranges is empty
     [{LineIdx, LineIdx}];               % initialize with range for LineIdx
