@@ -1,5 +1,5 @@
 -module(cfol).
--export([join/2,concat/1,member/2,quicksort/1]).
+-export([join/2,concat/1,member/2,quicksort/1,insertionsort/1]).
 
 % - join in terms of shunt & reverse
 -spec join([T],[T]) -> [T].
@@ -39,4 +39,18 @@ pivot(X,[Y|Xs],Smaller,Greater) ->
     case Y < X of
         true -> pivot(X,Xs,[Y|Smaller],Greater);
         _    -> pivot(X,Xs,Smaller,[Y|Greater])
+    end.
+
+% - insertion sort using direct recursion in terms of insert
+-spec insertionsort([T]) -> [T].
+insertionsort([]) -> [];
+insertionsort([X|Xs]) -> insert(X,insertionsort(Xs)).
+
+% - insert using direct recursion
+-spec insert(T,[T]) -> [T].
+insert(X,[]) -> [X];
+insert(X,[Y|Ys]=Yss) -> 
+    case X < Y of
+        true -> [X|Yss];
+        _    -> [Y|insert(X,Ys)]
     end.
