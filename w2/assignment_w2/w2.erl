@@ -34,4 +34,22 @@ add_line_to_ranges(LineIdx, Ranges) ->
     end.
 
 line_to_words(Line) ->
-    string:tokens(Line, " "). % leveraging the string:tokens/2 function
+    string:tokens(nocaps(nopunc(Line)), " "). % leveraging the string:tokens/2 function
+
+% - removes punctuation
+nopunc([]) -> [];
+nopunc([X|Xs]) -> 
+    case lists:member(X, ",;.:") of
+        true -> nopunc(Xs);
+        _    -> [X|nopunc(Xs)]
+    end.
+
+% - removes capitalization
+nocaps([]) -> [];
+nocaps([X|Xs]) -> [nocap(X)|nocaps(Xs)].
+
+nocap(X) -> 
+    case $A =< X andalso X =< $Z of
+        true -> X + 32;
+        _    -> X
+    end.
