@@ -1,5 +1,5 @@
 -module(cfol).
--export([join/2,concat/1]).
+-export([join/2,concat/1,member/2]).
 
 % - join in terms of shunt & reverse
 -spec join([T],[T]) -> [T].
@@ -17,3 +17,9 @@ shunt([X|Xs],Ys) -> shunt(Xs,[X|Ys]).
 concat(Xs) -> concat(Xs,[]).
 concat([],Acc) -> Acc;
 concat([X|Xs],Acc) -> concat(Xs,join(Acc,X)).
+
+% - member - direct recursion
+-spec member(T,[T]) -> boolean().
+member(_X,[]) -> false;
+member(X,[X|_Xs]) -> true;
+member(X,[_Y|Xs]) -> member(X,Xs).
