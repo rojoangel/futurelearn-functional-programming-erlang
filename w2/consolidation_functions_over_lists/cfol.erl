@@ -1,5 +1,5 @@
 -module(cfol).
--export([join/2,concat/1,member/2,quicksort/1,insertionsort/1]).
+-export([join/2,concat/1,member/2,quicksort/1,insertionsort/1,mergesort/1]).
 
 % - join in terms of shunt & reverse
 -spec join([T],[T]) -> [T].
@@ -53,4 +53,23 @@ insert(X,[Y|Ys]=Yss) ->
     case X < Y of
         true -> [X|Yss];
         _    -> [Y|insert(X,Ys)]
+    end.
+% - merge sort using direct recursion in terms of merge
+-spec mergesort([T]) -> [T].
+mergesort([]) -> [];
+mergesort([X]) -> [X];
+mergesort(Xs) -> 
+    HalfLength = length(Xs) div 2,
+    {Ys,Zs} = lists:split(HalfLength,Xs),
+    merge(mergesort(Ys),mergesort(Zs)).
+
+% - merge tail recursive
+-spec merge([T],[T]) -> [T].
+merge(Xs,Ys) -> merge(Xs,Ys,[]).
+merge([],Ys,Acc) -> Acc ++ Ys;
+merge(Xs,[],Acc) -> Acc ++ Xs;
+merge([X|Xs]=Xss,[Y|Ys]=Yss,Acc) ->
+    case X > Y of
+        true -> merge(Xss,Ys,Acc++[Y]);
+        _    -> merge(Xs,Yss,Acc++[X])
     end.
