@@ -25,7 +25,7 @@ add_word(Word,LineIdx,[{AnotherWord, Ranges}|WordRanges]=AllWordRanges) ->    % 
     % [{AnotherWord, Ranges}|add_word(Word,LineIdx,WordRanges)].  % keep recurring (non lexicographic order)
     case AnotherWord < Word of
         true -> [{AnotherWord, Ranges}|add_word(Word,LineIdx,WordRanges)]; % keep recurring (lexicograph order)
-        _    -> [{Word,add_line_to_ranges(LineIdx,[])}|AllWordRanges]      % add Word and stop recurring 
+        _    -> [{Word,add_line_to_ranges(LineIdx,[])}|AllWordRanges]      % add Word and stop recurring (lexicograph order)
     end.
 
 add_line_to_ranges(LineIdx,[]) ->       % edge case - Ranges is empty
@@ -43,7 +43,7 @@ line_to_words(Line) ->
 % - removes punctuation
 nopunc([]) -> [];
 nopunc([X|Xs]) -> 
-    case lists:member(X, ",;.:") of
+    case lists:member(X, ",;.:-\\") of
         true -> nopunc(Xs);
         _    -> [X|nopunc(Xs)]
     end.
