@@ -1,5 +1,5 @@
 -module(hofs).
--export([doubleAll/1,evens/1,product/1,zip/2,zip_with/3,zip_with_2/3]).
+-export([doubleAll/1,evens/1,product/1,zip/2,zip_with/3,zip_with_2/3, zip_2/2]).
 
 % - double all
 %
@@ -60,3 +60,10 @@ zip_with(F,[X|Xs],[Y|Ys]) -> [F(X,Y)|zip_with(F,Xs,Ys)].
 
 zip_with_2(F,Xs,Ys) ->
     lists:map(fun ({X,Y}) -> F(X,Y) end, zip(Xs,Ys)).
+
+% - zip_2 in terms of zip_with
+% 21> hofs:zip_2([1,3,5,7], [2,4]).
+% [{1,2},{3,4}]
+
+zip_2(Xs,Ys) ->
+    zip_with(fun (X,Y) -> {X,Y} end, Xs, Ys).
