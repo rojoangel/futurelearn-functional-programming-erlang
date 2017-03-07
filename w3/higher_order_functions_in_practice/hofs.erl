@@ -1,5 +1,5 @@
 -module(hofs).
--export([doubleAll/1,evens/1,product/1]).
+-export([doubleAll/1,evens/1,product/1,zip/2]).
 
 % - double all
 %
@@ -30,3 +30,12 @@ evens(Xs) ->
 
 product(Xs) ->
     lists:foldr(fun (X,Y) -> X * Y end , 1, Xs).
+
+% - recursive zip
+%
+% 11> hofs:zip([1,3,5,7], [2,4]).
+% [{1,2},{3,4}]
+
+zip([],_Ys) -> [];
+zip(_Xs,[]) -> [];
+zip([X|Xs],[Y|Ys]) -> [{X,Y}| zip(Xs,Ys)].
