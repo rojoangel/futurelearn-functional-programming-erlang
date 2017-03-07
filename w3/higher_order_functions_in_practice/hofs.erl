@@ -1,5 +1,5 @@
 -module(hofs).
--export([doubleAll/1,evens/1,product/1,zip/2]).
+-export([doubleAll/1,evens/1,product/1,zip/2,zip_with/3]).
 
 % - double all
 %
@@ -39,3 +39,14 @@ product(Xs) ->
 zip([],_Ys) -> [];
 zip(_Xs,[]) -> [];
 zip([X|Xs],[Y|Ys]) -> [{X,Y}| zip(Xs,Ys)].
+
+% - recursive zip_with
+%
+% 14> hofs:zip_with(fun(X,Y) -> X+Y end, [1,3,5,7], [2,4]).
+% [3,7]
+% 15> hofs:zip_with(fun(X,Y) -> X*Y end, [1,3,5,7], [2,4]).
+% [2,12]
+
+zip_with(_F,[],_Ys) -> [];
+zip_with(_F,_Xs,[]) -> [];
+zip_with(F,[X|Xs],[Y|Ys]) -> [F(X,Y)|zip_with(F,Xs,Ys)].
