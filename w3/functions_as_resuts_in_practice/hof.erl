@@ -44,7 +44,20 @@ compose_all(Xs) ->
 twice(F) ->
     compose(F,F).
 
-iterate(0) ->
-    dummy;
+% 55> ((hof:iterate(0)) (fun (X) -> 2*X end)) (19).
+% 19
+% 56> ((hof:iterate(1)) (fun (X) -> 2*X end)) (19).
+% 38
+% 57> ((hof:iterate(2)) (fun (X) -> 2*X end)) (19).
+% 76
+% 58> ((hof:iterate(3)) (fun (X) -> 2*X end)) (19).
+% 152
 iterate(N) ->
-    dummy.
+    fun (F) ->
+        iterate(N,F,fun id/1)
+    end.
+
+iterate(0,_F,Acc) ->
+        Acc;
+iterate(N,F,Acc) ->
+iterate(N-1,F,compose(F,Acc)).
