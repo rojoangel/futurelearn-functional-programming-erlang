@@ -33,6 +33,14 @@ id(X) ->
 compose_all(Xs) ->
     lists:foldr(fun compose/2,fun id/1, Xs).
 
+% 47> TwiceBy3 = hof:twice(fun (X) -> 3*X end).
+% #Fun<hof.2.30422063>
+% 48> TwiceBy3(2).
+% 18
+% 49> FourTimesBy3 = hof:twice(hof:twice(fun (X) -> 3 * X end)).
+% #Fun<hof.2.30422063>
+% 50> FourTimesBy3(2).
+% 162
 twice(F) ->
     compose(F,F).
 
@@ -40,6 +48,3 @@ iterate(0) ->
     dummy;
 iterate(N) ->
     dummy.
-      
-	     
-
