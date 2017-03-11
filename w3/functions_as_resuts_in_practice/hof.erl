@@ -1,5 +1,5 @@
 -module(hof).
--export([add/1,times/1,compose/2,id/1,compose_all/1,iterate/1]).
+-export([add/1,times/1,compose/2,id/1,compose_all/1,twice/1,iterate/1]).
 
 add(X) ->
     fun(Y) -> X+Y end.
@@ -32,6 +32,9 @@ id(X) ->
 % 14
 compose_all(Xs) ->
     lists:foldr(fun compose/2,fun id/1, Xs).
+
+twice(F) ->
+    compose(F,F).
 
 iterate(0) ->
     dummy;
