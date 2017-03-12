@@ -1,5 +1,5 @@
 -module(rps).
--export([play/1,echo/1,play_two/3,rock/1,no_repeat/1,const/1,enum/1,cycle/1,rand/1,val/1,least_freq/1,tournament/2]).
+-export([play/1,echo/1,play_two/3,rock/1,no_repeat/1,const/1,enum/1,cycle/1,rand/1,val/1,least_freq/1,most_freq/1,tournament/2]).
 
 
 %
@@ -148,11 +148,17 @@ least_freq(Moves) ->
     [{_Count,Gesture}|_] = lists:sort(frequencies(Moves,[{0,rock},{0,paper},{0,scissors}])),
     Gesture.
 
+most_freq(Moves) ->
+    [{_Count,Gesture}|_] = lists:reverse(lists:sort(frequencies(Moves,[{0,rock},{0,paper},{0,scissors}]))),
+    Gesture.
+
+% support function for least_freq and most_freq strategies
 frequencies([],Frequencies) ->
     Frequencies;
 frequencies([Gesture|Moves],Frequencies) ->
     frequencies(Moves,increase_count(Gesture,Frequencies)).
 
+% support function for least_freq and most_freq strategies
 increase_count(rock,[{I,rock},{J,paper},{K,scissors}]) ->
     [{I+1,rock},{J,paper},{K,scissors}];
 increase_count(paper,[{I,rock},{J,paper},{K,scissors}]) ->
