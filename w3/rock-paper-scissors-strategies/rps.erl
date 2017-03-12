@@ -137,11 +137,11 @@ no_repeat([]) ->
 no_repeat([Last|_]) ->
     Last.    
 
+rand(_) ->
+    enum(rand:uniform(3) - 1).
+
 const(Play) ->
     dummy.
 
 cycle(Xs) ->
-    dummy.
-
-rand(_) ->
     dummy.
