@@ -1,5 +1,5 @@
 -module(rps).
--export([play/1,echo/1,play_two/3,rock/1,no_repeat/1,const/1,enum/1,cycle/1,rand/1,val/1,least_freq/1,most_freq/1,rand_choice/1,tournament/2]).
+-export([play/1,echo/1,play_two/3,rock/1,no_repeat/1,const/1,enum/1,cycle/1,rand/1,val/1,least_freq/1,most_freq/1,rand_choice/1,best_sofar/2,tournament/2]).
 
 
 %
@@ -170,6 +170,20 @@ increase_count(scissors,[{I,rock},{J,paper},{K,scissors}]) ->
 rand_choice(Strategies) ->
     Length = length(Strategies),
     lists:nth(rand:uniform(Length), Strategies).
+
+best_sofar(Strategies,Moves) ->
+    StrategiesMoves = lists:map(fun (Strategy) -> play_strategy(Strategy,Moves) end,Strategies),
+    StrategiesResults = lists:map(fun (StrategyMoves) -> tournament(StrategyMoves, Moves) end,StrategiesMoves),
+    [{_Result,Strategy}|_] = lists:reverse(lists:sort(lists:zip(StrategiesResults,Strategies))),
+    Strategy.
+
+play_strategy(Strategy,Moves) ->                       % Moves are reverse because latest move is at head
+    play_strategy(Strategy,lists:reverse(Moves),[],[]). % call to tail recursive implementation
+
+play_strategy(_Strategy,[],_PrevMoves,Results) ->
+    Results;
+play_strategy(Strategy,[Move|Moves],PreviousMoves,Results) ->
+    play_strategy(Strategy,Moves,[Move|PreviousMoves],[Strategy(PreviousMoves)|Results]).
 
 const(Play) ->
     dummy.
