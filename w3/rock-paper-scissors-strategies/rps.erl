@@ -115,15 +115,27 @@ echo([Last|_]) ->
 rock(_) ->
     rock.
 
-
-
-% FOR YOU TO DEFINE
-% REPLACE THE dummy DEFINITIONS
-
+% No repeat strategy
+% This is the expanded version of the strategy
+% no_repeat([rock|_]) ->
+%     % expect paper or scissors
+%     % chosing scissors never loses
+%     scissors;
+% no_repeat([paper|_]) ->
+%     % expect rock or scissors
+%     % chosing rock never loses
+%     rock;
+% no_repeat([scissors|_]) ->
+%     % expect rock or paper
+%     % chosing paper never loses
+%     paper.    
+% 
+% which happens to be equivalent to return beats(Last)
+%
 no_repeat([]) ->
-    dummy;
-no_repeat([X|_]) ->
-    dummy.
+    paper;
+no_repeat([Last|_]) ->
+    Last.    
 
 const(Play) ->
     dummy.
