@@ -142,7 +142,7 @@ rock(_) ->
 no_repeat([]) ->
     paper;
 no_repeat([Last|_]) ->
-    Last.    
+    beats(Last).    
 
 rand(_) ->
     enum(rand:uniform(3) - 1).
