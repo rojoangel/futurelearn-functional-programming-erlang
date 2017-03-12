@@ -36,20 +36,20 @@ play(Strategy) ->
     io:format("Rock - paper - scissors~n"),
     io:format("Play one of rock, paper, scissors, ...~n"),
     io:format("... r, p, s, stop, followed by '.'~n"),
-    play(Strategy,[]).
+    play(Strategy,[],0).
 
 % tail recursive loop for play/1
 
-play(Strategy,Moves) ->
+play(Strategy,Moves,AccResult) ->
     {ok,P} = io:read("Play: "),
     Play = expand(P),
     case Play of
 	stop ->
-	    io:format("Stopped~n");
+	    io:format("Stopped. Final result ~p~n",[AccResult]);
 	_    ->
 	    Result = result(Play,Strategy(Moves)),
 	    io:format("Result: ~p~n",[Result]),
-	    play(Strategy,[Play|Moves])
+	    play(Strategy,[Play|Moves],AccResult + outcome(Result))
     end.
 
 %
