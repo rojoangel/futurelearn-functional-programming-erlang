@@ -1,5 +1,5 @@
 -module(rps).
--export([play/1,echo/1,play_two/3,rock/1,no_repeat/1,const/1,enum/1,cycle/1,rand/1,val/1,least_freq/1,most_freq/1,rand_choice/1,best_sofar/2,tournament/2]).
+-export([play/1,echo/1,play_two/3,rock/1,no_repeat/1,const/1,enum/1,cycle/1,rand/1,val/1,least_freq/1,most_freq/1,rand_choice/1,best_sofar/1,tournament/2]).
 
 
 %
@@ -16,10 +16,17 @@ play_two(StrategyL,StrategyR,N) ->
 % REPLACE THE dummy DEFINITIONS
 
 play_two(_,_,PlaysL,PlaysR,0) ->
-   dummy;
+   io:format("Tournament result: ~p~n",[tournament(PlaysL,PlaysR)]);
 
 play_two(StrategyL,StrategyR,PlaysL,PlaysR,N) ->
-   dummy.
+    GestureL = StrategyL(PlaysR),
+    GestureR = StrategyR(PlaysL),
+    Result = result(GestureL,GestureR),
+    io:format("Move: ~p", [N]),
+    io:format(" L: ~p", [GestureL]),
+    io:format(" R: ~p", [GestureR]),
+    io:format(" Result: ~p~n",[Result]),
+    play_two(StrategyL,StrategyR,[GestureL|PlaysL],[GestureR|PlaysR],N-1).
 
 %
 % interactively play against a strategy, provided as argument.
@@ -171,11 +178,13 @@ rand_choice(Strategies) ->
     Length = length(Strategies),
     lists:nth(rand:uniform(Length), Strategies).
 
-best_sofar(Strategies,Moves) ->
-    StrategiesMoves = lists:map(fun (Strategy) -> play_strategy(Strategy,Moves) end,Strategies),
-    StrategiesResults = lists:map(fun (StrategyMoves) -> tournament(StrategyMoves, Moves) end,StrategiesMoves),
-    [{_Result,Strategy}|_] = lists:reverse(lists:sort(lists:zip(StrategiesResults,Strategies))),
-    Strategy.
+best_sofar(Strategies) ->
+    fun (Moves) ->
+        StrategiesMoves = lists:map(fun (Strategy) -> play_strategy(Strategy,Moves) end,Strategies),
+        StrategiesResults = lists:map(fun (StrategyMoves) -> tournament(StrategyMoves, Moves) end,StrategiesMoves),
+        [{_Result,Strategy}|_] = lists:reverse(lists:sort(lists:zip(StrategiesResults,Strategies))),
+        Strategy(Moves)
+    end.
 
 play_strategy(Strategy,Moves) ->                       % Moves are reverse because latest move is at head
     play_strategy(Strategy,lists:reverse(Moves),[],[]). % call to tail recursive implementation
