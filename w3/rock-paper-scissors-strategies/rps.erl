@@ -140,8 +140,10 @@ no_repeat([Last|_]) ->
 rand(_) ->
     enum(rand:uniform(3) - 1).
 
+cycle(Moves) ->
+    MovesCount = length(Moves),
+    enum(MovesCount rem 3).
+
 const(Play) ->
     dummy.
 
-cycle(Xs) ->
-    dummy.
