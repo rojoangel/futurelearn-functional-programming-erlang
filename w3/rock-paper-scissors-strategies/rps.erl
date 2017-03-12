@@ -195,4 +195,4 @@ play_strategy(Strategy,[Move|Moves],PreviousMoves,Results) ->
     play_strategy(Strategy,Moves,[Move|PreviousMoves],[Strategy(PreviousMoves)|Results]).
 
 const(Play) ->
-    dummy.
+    fun(_) -> Play end.
