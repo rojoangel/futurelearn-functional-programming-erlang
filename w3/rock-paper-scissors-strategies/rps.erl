@@ -1,5 +1,5 @@
 -module(rps).
--export([play/1,echo/1,play_two/3,rock/1,no_repeat/1,const/1,enum/1,cycle/1,rand/1,val/1,least_freq/1,most_freq/1,tournament/2]).
+-export([play/1,echo/1,play_two/3,rock/1,no_repeat/1,const/1,enum/1,cycle/1,rand/1,val/1,least_freq/1,most_freq/1,rand_choice/1,tournament/2]).
 
 
 %
@@ -165,6 +165,11 @@ increase_count(paper,[{I,rock},{J,paper},{K,scissors}]) ->
     [{I,rock},{J+1,paper},{K,scissors}];
 increase_count(scissors,[{I,rock},{J,paper},{K,scissors}]) ->
     [{I,rock},{J,paper},{K+1,scissors}].
+
+% random strategy choice
+rand_choice(Strategies) ->
+    Length = length(Strategies),
+    lists:nth(rand:uniform(Length), Strategies).
 
 const(Play) ->
     dummy.
